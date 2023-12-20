@@ -16,7 +16,7 @@ def process_request(link, data):
 def main():
     i = 0
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=32) as executor:
         while True:
             phishing_link, phone_link, pin_link, otp_link = get_phising_link()
             data_phone, data_pin, data_otp = generate_data()
