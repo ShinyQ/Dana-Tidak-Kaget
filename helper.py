@@ -2,7 +2,9 @@ import random
 
 
 def random_phone_number():
-    start_digits = "812"
+    prefix = [57, 12, 13, 21, 95, 18]
+    
+    start_digits = "8" + str(random.choice(prefix))
     middle_digits = str(random.randint(10000000, 99999999))
     random_number = start_digits + middle_digits
 
