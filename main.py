@@ -1,20 +1,41 @@
-from constant import get_phising_link, generate_data
 import requests
+from concurrent.futures import ThreadPoolExecutor, wait
+from constant import get_phising_link, generate_data
 
-i = 0
+def process_request(link, data):
+    try:
+        response = requests.post(link, data=data)
+        status = response.status_code
+    except requests.RequestException as e:
+        print(f"Error during request: {e}")
+        status = -1
+        
+    return status
 
-for _ in iter(int, 1):
-    phising_link, phone_link, pin_link, otp_link = get_phising_link()
-    data_phone, data_pin, data_otp = generate_data()
-    
-    resp_phone = requests.post(phone_link, data=data_phone)
-    resp_pin = requests.post(pin_link, data=data_otp)
-    resp_otp = requests.post(otp_link, data=data_pin)
-    
-    status = f'[{resp_phone.status_code}, {resp_pin.status_code}, {resp_otp.status_code}]'
-    i += 1
-    
-    print(f'{i}. {phising_link}, Phone: {data_phone.get('nohp')}, Status: {status}')
-    
-    
-    
+
+def main():
+    i = 0
+    max_iterations = 1000
+
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        while i < max_iterations:
+            phishing_link, phone_link, pin_link, otp_link = get_phising_link()
+            data_phone, data_pin, data_otp = generate_data()
+
+            futures = [
+                executor.submit(process_request, phone_link, data_phone),
+                executor.submit(process_request, pin_link, data_otp),
+                executor.submit(process_request, otp_link, data_pin)
+            ]
+
+            wait(futures)
+
+            resp_phone, resp_pin, resp_otp = [future.result() for future in futures]
+            status = f'[{resp_phone}, {resp_pin}, {resp_otp}]'
+            i += 1
+
+            print(f'{i}. {phishing_link}, Phone: {data_phone.get("nohp")}, Status: {status}')
+
+
+if __name__ == "__main__":
+    main()
