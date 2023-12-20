@@ -27,8 +27,9 @@ def generate_data():
 
 def get_phising_link():
     phising_link = [
+        # 'https://linkd4gtz-ld-wb.bqx.my.id', (Dead)
+        # 'https://klaim-dana-kaget.flare.biz.id/', (Dead)
         'https://linkxzxc-dagetzz.danacareid.my.id',
-        'https://linkd4gtz-ld-wb.bqx.my.id',
         'https://appdana.skom.id',
     ]
     
