@@ -15,10 +15,9 @@ def process_request(link, data):
 
 def main():
     i = 0
-    max_iterations = 1000
 
     with ThreadPoolExecutor(max_workers=3) as executor:
-        while i < max_iterations:
+        while True:
             phishing_link, phone_link, pin_link, otp_link = get_phising_link()
             data_phone, data_pin, data_otp = generate_data()
 
@@ -39,3 +38,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
