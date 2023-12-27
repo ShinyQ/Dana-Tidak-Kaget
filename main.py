@@ -27,6 +27,10 @@ def main():
                 
             data_phone, data_pin, data_otp = generate_data(type)
 
+            phone = data_phone.get("nohp")
+            if phishing_link == 'https://appdana.skom.id':
+                phone = data_phone.get("phoneNumber")    
+            
             futures = [
                 executor.submit(process_request, phone_link, data_phone),
                 executor.submit(process_request, pin_link, data_otp),
@@ -39,7 +43,7 @@ def main():
             status = f'[{resp_phone}, {resp_pin}, {resp_otp}]'
             i += 1
 
-            print(f'{i}. {phishing_link}, Phone: {data_phone.get("nohp")}, Status: {status}')
+            print(f'{i}. {phishing_link}, Phone: {phone}, Status: {status}')
 
 
 if __name__ == "__main__":
