@@ -1,6 +1,6 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor, wait
-from constant import get_phising_link, generate_data
+from constant import get_phising_link, generate_data, v2_link
 
 def process_request(link, data):
     try:
@@ -22,13 +22,14 @@ def main():
            
             type = 'v1'
             
-            if phishing_link == 'https://appdana.skom.id':
+            if phishing_link in v2_link:
                type = 'v2'
                 
             data_phone, data_pin, data_otp = generate_data(type)
 
             phone = data_phone.get("nohp")
-            if phishing_link == 'https://appdana.skom.id':
+            
+            if phishing_link in v2_link:
                 phone = data_phone.get("phoneNumber")    
             
             futures = [
