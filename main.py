@@ -19,6 +19,9 @@ def main():
     with ThreadPoolExecutor(max_workers=32) as executor:
         while True:
             phishing_link, phone_link, pin_link, otp_link = get_phising_link()
+           
+            type = 'v1'
+            
             if phishing_link == 'https://appdana.skom.id':
                type = 'v2'
                 
